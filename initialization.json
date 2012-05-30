@@ -1,0 +1,25 @@
+{
+    "kind":{
+        "term":"cp",
+        "scheme":"http://schemas.ogf.org/occi/ocni",
+        "class":"kind"
+    },
+    "occi.core.id":"CP-1",
+    "occi.core.title":"Cloud Provider with ID: CP-1",
+    "occi.core.summary":"A description of the Cloud Provider (CP) with the CP-1 Identifier/",
+    "mixins":[
+        {
+        }
+    ],
+    "links":[
+    ],
+    "attributes":{
+        "ocni.cp.state":"active",
+        "ocni.cp.dcp_id":"DCP-1",
+        "ocni.cp.dcp_discovery_socket":"tcp://127.0.0.1:5000",
+        "ocni.cp.dcp_discovery_neighbors_socket": [ ],
+        "ocni.cp.dcp_broadcast_socket":"tcp://127.0.0.1:6000",
+        "ocni.cp.dcp_provider_socket":"tcp://127.0.0.1:7000",
+        "ocni.cp.topics": [ "VPN-L3", "VPN-L2", "OpenFlow" ]
+    }
+}
