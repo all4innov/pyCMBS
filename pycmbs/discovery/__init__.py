@@ -155,7 +155,6 @@ except Exception:
 
 A = initialisation_data['attributes']["ocni.cp.dcp_discovery_neighbors_socket"]
 
-#print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 print type(A)
 
 while len(A) > 0:
@@ -170,7 +169,6 @@ while len(A) > 0:
         # the discovery requests can be sent in // via thread (just check that no more thread running when doing the while len(A) > 0
         result = discovery_request(zmq_server=a, message=initialisation_data)
         db.save(result['description_provider'])
-        #print 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'
         for u in result['values']:
             print type(u)
             print u
