@@ -39,6 +39,7 @@ Thumbs.db
 ######################
 CMBS.egg-info/
 PyCMBS.egg-info/
+pyCMBS.egg-info/
 build/
 dist/
 .idea/

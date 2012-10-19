@@ -17,9 +17,12 @@
         "ocni.cp.state":"active",
         "ocni.cp.dcp_id":"DCP-1",
         "ocni.cp.dcp_discovery_socket":"tcp://127.0.0.1:5000",
-        "ocni.cp.dcp_discovery_neighbors_socket": [ ],
+        "ocni.cp.dcp_discovery_neighbors_socket":[ ],
         "ocni.cp.dcp_broadcast_socket":"tcp://127.0.0.1:6000",
         "ocni.cp.dcp_provider_socket":"tcp://127.0.0.1:7000",
-        "ocni.cp.topics": [ "VPN-L3", "VPN-L2", "OpenFlow" ]
+        "ocni.cp.topics":[ "VPN-L3", "VPN-L2", "OpenFlow" ]
     }
 }
+
+
+
