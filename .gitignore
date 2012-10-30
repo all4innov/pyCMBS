@@ -36,15 +36,14 @@ Icon?
 Thumbs.db
 
 # Folders #
-######################
-CMBS.egg-info/
-PyCMBS.egg-info/
-pyCMBS.egg-info/
+###################### 
+.idea/
 build/
 dist/
-.idea/
+pyocni.egg-info/
 
-# ZODB - Database Files #
+
+
+# Testing file
 #########################
-
-
+CommandTester.py
