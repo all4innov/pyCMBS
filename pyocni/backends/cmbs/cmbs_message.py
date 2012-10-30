@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 """
-Created on Dec 10, 2011
+Created on Sep 01, 2011
 
 @author: Houssem Medhioub
 @contact: houssem.medhioub@it-sudparis.eu
@@ -21,19 +21,21 @@ Created on Dec 10, 2011
 @license: Apache License, Version 2.0
 """
 
+#import pyocni.backend.backend as backend
 from pyocni.backends.backend import backend
 import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
 
-class openstack_backend(backend):
-    def create(self, entity):
+class cmbs_message_backend(backend):
+    def create(self, entity, hhh):
         '''
 
         Create an entity (Resource or Link)
 
         '''
-        logger.debug('The create operation of the openstack_backend')
+
+        logger.debug('The create operation of the dummy_backend')
 
     def read(self, entity):
         '''
@@ -41,7 +43,7 @@ class openstack_backend(backend):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation of the openstack_backend')
+        logger.debug('The read operation of the dummy_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -49,7 +51,7 @@ class openstack_backend(backend):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation of the openstack_backend')
+        logger.debug('The update operation of the dummy_backend')
 
     def delete(self, entity):
         '''
@@ -57,7 +59,7 @@ class openstack_backend(backend):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation of the openstack_backend')
+        logger.debug('The delete operation of the dummy_backend')
 
     def action(self, entity, action):
         '''
@@ -65,4 +67,4 @@ class openstack_backend(backend):
         Perform an action on an Entity
 
         '''
-        logger.debug('The Entity\'s action operation of the openstack_backend')
+        logger.debug('The Entity\'s action operation of the dummy_backend')

@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 """
-Created on Sep 01, 2012
+Created on Sep 01, 2011
 
 @author: Houssem Medhioub
 @contact: houssem.medhioub@it-sudparis.eu
@@ -21,29 +21,21 @@ Created on Sep 01, 2012
 @license: Apache License, Version 2.0
 """
 
+#import pyocni.backend.backend as backend
+from pyocni.backends.backend import backend
 import pyocni.pyocni_tools.config as config
-import commands
-
 # getting the Logger
 logger = config.logger
 
-
-class backend(object):
-    '''
-
-    A simple and empty backend
-
-    '''
-
-    local_identifier = 'a'
-
-    def create(self, entity):
+class cmbs_member_backend(backend):
+    def create(self, entity, hhh):
         '''
 
         Create an entity (Resource or Link)
 
         '''
-        logger.debug('The create operation is not implemented yet')
+
+        logger.debug('The create operation of the dummy_backend')
 
     def read(self, entity):
         '''
@@ -51,7 +43,7 @@ class backend(object):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation is not implemented yet')
+        logger.debug('The read operation of the dummy_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -59,7 +51,7 @@ class backend(object):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation is not implemented yet')
+        logger.debug('The update operation of the dummy_backend')
 
     def delete(self, entity):
         '''
@@ -67,7 +59,7 @@ class backend(object):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation is not implemented yet')
+        logger.debug('The delete operation of the dummy_backend')
 
     def action(self, entity, action):
         '''
@@ -75,8 +67,4 @@ class backend(object):
         Perform an action on an Entity
 
         '''
-        logger.debug('The Entity\'s action operation is not implemented yet')
-
-
-if __name__ == '__main__':
-    pass
+        logger.debug('The Entity\'s action operation of the dummy_backend')

@@ -13,29 +13,29 @@
 #  limitations under the License.
 
 """
-Created on Dec 10, 2011
+Created on Sep 01, 2011
 
-@author: Bilel Msekni
-@contact: bilel.msekni@telecom-sudparis.eu
 @author: Houssem Medhioub
 @contact: houssem.medhioub@it-sudparis.eu
 @organization: Institut Mines-Telecom - Telecom SudParis
 @license: Apache License, Version 2.0
 """
 
+#import pyocni.backend.backend as backend
 from pyocni.backends.backend import backend
 import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
 
-class openflow_backend(backend):
-    def create(self, entity):
+class cmbs_backend(backend):
+    def create(self, entity, hhh):
         '''
 
         Create an entity (Resource or Link)
 
         '''
-        logger.debug('The create operation of the openflow_backend')
+
+        logger.debug('The create operation of the dummy_backend')
 
     def read(self, entity):
         '''
@@ -43,7 +43,7 @@ class openflow_backend(backend):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation of the openflow_backend')
+        logger.debug('The read operation of the dummy_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -51,7 +51,7 @@ class openflow_backend(backend):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation of the openflow_backend')
+        logger.debug('The update operation of the dummy_backend')
 
     def delete(self, entity):
         '''
@@ -59,7 +59,7 @@ class openflow_backend(backend):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation of the openflow_backend')
+        logger.debug('The delete operation of the dummy_backend')
 
     def action(self, entity, action):
         '''
@@ -67,4 +67,4 @@ class openflow_backend(backend):
         Perform an action on an Entity
 
         '''
-        logger.debug('The Entity\'s action operation of the openflow_backend')
+        logger.debug('The Entity\'s action operation of the dummy_backend')
