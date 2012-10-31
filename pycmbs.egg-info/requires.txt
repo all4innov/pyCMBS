@@ -1,0 +1,15 @@
+config
+configobj
+ordereddict
+simplejson
+jsonpickle
+routes
+webob
+pesto
+eventlet
+sphinx
+ZODB3
+httplib2
+couchdb
+couchdbkit
+tornado

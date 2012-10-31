@@ -24,6 +24,7 @@ Created on Jun 12, 2012
 """
 
 from pyocni.backends import dummy_backend
+from pyocni.backends.cmbs import cmbs_member, cmbs_message
 import pyocni.pyocni_tools.config as config
 
 try:
@@ -56,6 +57,10 @@ def choose_appropriate_provider(provider):
 
     if provider == "dummy":
         backend = dummy_backend.dummy_backend()
+    elif provider == "cmbs_member":
+        backend = cmbs_member.cmbs_member_backend
+    elif provider == "cmbs_message":
+        backend = cmbs_message.cmbs_message_backend
 
     return backend
 

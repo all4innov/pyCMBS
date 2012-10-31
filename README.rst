@@ -102,7 +102,196 @@ To test CouchDB GUI:   http://127.0.0.1:5984/_utils/
 4. HowTo use (examples. The json files are at the end of this README)
 =====================================================================
 
+Creation of the 'member' kind::
 
+    curl -X POST -d@post_categories.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/-/
+
+post_categories.json::
+
+    {
+            "actions": [
+                {
+                    "term": "start_l1",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "start the L1 of the member instance",
+                    "attributes": {}
+                },
+                {
+                    "term": "start_l2",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "start the L2 of the member instance",
+                    "attributes": {}
+                },
+                {
+                    "term": "start_l3.1",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "start the L3.1 of the member instance",
+                    "attributes": {}
+                },
+                {
+                    "term": "start_l3.2",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "start the L3.2 of the member instance",
+                    "attributes": {}
+                },
+                {
+                    "term": "start_l4",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "start the L4 of the member instance",
+                    "attributes": {}
+                },
+                {
+                    "term": "check_neighbors",
+                    "scheme": "http://houssem.org/cmbs/member/action#",
+                    "title": "check the neighbors member and try to get their description",
+                    "attributes": {}
+                }
+            ],
+            "kinds": [
+                {
+                    "term": "member",
+                    "scheme": "http://houssem.org/cmbs#",
+                    "title": "member of CMBS",
+                    "attributes": {
+                        "cmbs": {
+                            "member": {
+                                "state": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "active|inactive|suspended|failed",
+                                    "default": "inactive"
+                                },
+                                "l1_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": "tcp://127.0.0.1:5010"
+
+                                },
+                                "l2_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": "tcp://127.0.0.1:5020"
+
+                                },
+                                "l3.1_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": "tcp://127.0.0.1:5031"
+
+                                },
+                                "l3.2_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": "tcp://127.0.0.1:5032"
+
+                                },
+                                "l4_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "String",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": "tcp://127.0.0.1:5040"
+
+                                },
+                                "neighbors_socket": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "Array",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": ""
+                                },
+                                "topics": {
+                                    "mutable": true,
+                                    "required": false,
+                                    "type": "Array",
+                                    "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                                    "default": ""
+
+                                }
+                            }
+                        }
+                    },
+                    "actions": [
+                        "http://houssem.org/cmbs/member/action#start_l1",
+                        "http://houssem.org/cmbs/member/action#start_l2",
+                        "http://houssem.org/cmbs/member/action#start_l3.1",
+                        "http://houssem.org/cmbs/member/action#start_l3.2",
+                        "http://houssem.org/cmbs/member/action#start_l4",
+                        "http://houssem.org/cmbs/member/action#check_neighbors"
+                    ],
+                    "location": "/cmbs/member/"
+                }
+            ],
+            "mixins": []
+     }
+
+Update the provider of the 'member' kind::
+
+    curl -X PUT -d@put_provider.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/-/
+
+put_provider.json::
+
+    {
+        "providers": [
+            {
+                "Provider": {
+                    "local": [
+                        "cmbs_member"
+                    ],
+                    "remote": [
+
+                    ]
+                },
+                "OCCI_ID": "http://houssem.org/cmbs#member"
+            }
+        ]
+    }
+
+Create a member::
+
+    curl -X POST -d@post_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/cmbs/member/
+
+post_member.json::
+
+    {
+           "resources": [
+               {
+                   "kind": "http://houssem.org/cmbs#member",
+                   "mixins": [],
+                   "attributes": {
+                       "cmbs": {
+                           "member": {
+                               "state": "active",
+                               "l1_socket": "tcp://127.0.0.1:5010",
+                               "l2_socket": "tcp://127.0.0.1:5020",
+                               "l3.1_socket": "tcp://127.0.0.1:5031",
+                               "l3.2_socket": "tcp://127.0.0.1:5032",
+                               "l4_socket": "tcp://127.0.0.1:5040",
+                               "neighbors_socket": [],
+                               "topics": []
+
+                           }
+                       }
+                   },
+                   "actions": [
+                   ],
+                   "id": "996ad860-2a9a-504f-8861-aeafd0b2ae29",
+                   "title": "member of CMBS",
+                   "summary": "This is a member of CMBS",
+                   "links": [
+                   ]
+               }
+           ]
+       }
 
 5. For developers
 =================
