@@ -104,9 +104,9 @@ To test CouchDB GUI:   http://127.0.0.1:5984/_utils/
 
 Creation of the 'member' kind::
 
-    curl -X POST -d@post_categories.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/-/
+    curl -X POST -d@post_category_cmbs_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://127.0.0.1:8090/-/
 
-post_categories.json::
+post_category_cmbs_member.json::
 
     {
             "actions": [
@@ -236,9 +236,9 @@ post_categories.json::
 
 Update the provider of the 'member' kind::
 
-    curl -X PUT -d@put_provider.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/-/
+    curl -X PUT -d@put_provider_cmbs_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://127.0.0.1:8090/-/
 
-put_provider.json::
+put_provider_cmbs_member.json::
 
     {
         "providers": [
@@ -258,7 +258,11 @@ put_provider.json::
 
 Create a member::
 
-    curl -X POST -d@post_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://localhost:8090/cmbs/member/
+    curl -X POST -d@post_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://127.0.0.1:8090/cmbs/member/
+
+    <
+    {"Location": ["http://127.0.0.1:8090/cmbs/member/996ad860-2a9a-504f-8861-aeafd0b2ae29"]}
+
 
 post_member.json::
 
@@ -282,13 +286,11 @@ post_member.json::
                            }
                        }
                    },
-                   "actions": [
-                   ],
+                   "actions": [],
                    "id": "996ad860-2a9a-504f-8861-aeafd0b2ae29",
                    "title": "member of CMBS",
                    "summary": "This is a member of CMBS",
-                   "links": [
-                   ]
+                   "links": []
                }
            ]
        }

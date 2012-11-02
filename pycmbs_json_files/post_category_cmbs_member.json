@@ -1,0 +1,125 @@
+{
+    "actions": [
+        {
+            "term": "start_l1",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "start the L1 of the member instance",
+            "attributes": {}
+        },
+        {
+            "term": "start_l2",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "start the L2 of the member instance",
+            "attributes": {}
+        },
+        {
+            "term": "start_l31",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "start the L31 of the member instance",
+            "attributes": {}
+        },
+        {
+            "term": "start_l32",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "start the L32 of the member instance",
+            "attributes": {}
+        },
+        {
+            "term": "start_l4",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "start the L4 of the member instance",
+            "attributes": {}
+        },
+        {
+            "term": "check_neighbors",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "check the neighbors member and try to get their description",
+            "attributes": {}
+        }
+    ],
+    "kinds": [
+        {
+            "term": "member",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "member of CMBS",
+            "attributes": {
+                "cmbs": {
+                    "member": {
+                        "state": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "active|inactive|suspended|failed",
+                            "default": "inactive"
+                        },
+                        "l1_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": "tcp://127.0.0.1:5010"
+
+                        },
+                        "l2_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": "tcp://127.0.0.1:5020"
+
+                        },
+                        "l31_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": "tcp://127.0.0.1:5031"
+
+                        },
+                        "l32_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": "tcp://127.0.0.1:5032"
+
+                        },
+                        "l4_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": "tcp://127.0.0.1:5040"
+
+                        },
+                        "neighbors_socket": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        },
+                        "topics": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+
+                        }
+                    }
+                }
+            },
+            "actions": [
+                "http://houssem.org/cmbs/member/action#start_l1",
+                "http://houssem.org/cmbs/member/action#start_l2",
+                "http://houssem.org/cmbs/member/action#start_l31",
+                "http://houssem.org/cmbs/member/action#start_l32",
+                "http://houssem.org/cmbs/member/action#start_l4",
+                "http://houssem.org/cmbs/member/action#check_neighbors"
+            ],
+            "location": "/cmbs/member/"
+        }
+    ],
+    "mixins": []
+}

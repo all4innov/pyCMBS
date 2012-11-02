@@ -28,14 +28,14 @@ import pyocni.pyocni_tools.config as config
 logger = config.logger
 
 class cmbs_member_backend(backend):
-    def create(self, entity, hhh):
+    def create(self, entity):
         '''
 
         Create an entity (Resource or Link)
 
         '''
 
-        logger.debug('The create operation of the dummy_backend')
+        logger.debug('The create operation of the cmbs_member_backend')
 
     def read(self, entity):
         '''
@@ -43,7 +43,7 @@ class cmbs_member_backend(backend):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation of the dummy_backend')
+        logger.debug('The read operation of the cmbs_member_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -51,7 +51,7 @@ class cmbs_member_backend(backend):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation of the dummy_backend')
+        logger.debug('The update operation of the cmbs_member_backend')
 
     def delete(self, entity):
         '''
@@ -59,7 +59,7 @@ class cmbs_member_backend(backend):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation of the dummy_backend')
+        logger.debug('The delete operation of the cmbs_member_backend')
 
     def action(self, entity, action):
         '''
@@ -67,4 +67,4 @@ class cmbs_member_backend(backend):
         Perform an action on an Entity
 
         '''
-        logger.debug('The Entity\'s action operation of the dummy_backend')
+        logger.debug('The Entity\'s action operation of the cmbs_member_backend')

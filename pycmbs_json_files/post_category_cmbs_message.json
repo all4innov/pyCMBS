@@ -1,0 +1,200 @@
+{
+    "actions": [
+        {
+            "term": "execute",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "execute locally the message",
+            "attributes": {}
+        },
+        {
+            "term": "send_l1",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "Send a L1 message",
+            "attributes": {}
+        },
+        {
+            "term": "send_l2",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "Send a L2 message",
+            "attributes": {}
+        },
+        {
+            "term": "send_l31",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "Send a L31 message",
+            "attributes": {}
+        },
+        {
+            "term": "send_l32",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "Send a L32 message",
+            "attributes": {}
+        },
+        {
+            "term": "send_l4",
+            "scheme": "http://houssem.org/cmbs/message/action#",
+            "title": "Send a L4 message",
+            "attributes": {}
+        }
+    ],
+    "kinds": [
+        {
+            "term": "message",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "CMBS message",
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "cmbs_layer": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "l1|l2|l31|l32|l4",
+                            "default": "true"
+                        },
+                        "executable": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "true|false",
+                            "default": "true"
+                        },
+                        "sendable": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "true|false",
+                            "default": "true"
+                        },
+                        "storable": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "true|false",
+                            "default": "true"
+                        },
+                        "path_history": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        },
+                        "message_content": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Object",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        }
+                    }
+                }
+            },
+            "actions": [
+                "http://houssem.org/cmbs/message/action#execute"
+            ],
+            "location": "/cmbs/message/"
+        }
+    ],
+    "mixins": [
+        {
+            "term": "l1",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "L1 CMBS message",
+            "related": [],
+            "attributes": {},
+            "actions": [
+                "http://houssem.org/cmbs/message/action#send_l1"
+            ],
+            "location": "/cmbs/message/l1/"
+        },
+        {
+            "term": "l2",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "L2 CMBS message",
+            "related": [],
+            "attributes": {},
+            "actions": [
+                "http://houssem.org/cmbs/message/action#send_l2"
+            ],
+            "location": "/cmbs/message/l2/"
+        },
+        {
+            "term": "l31",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "L31 CMBS message",
+            "related": [],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "providers": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        }
+                    }
+                }
+            },
+            "actions": [
+                "http://houssem.org/cmbs/message/action#send_l31"
+            ],
+            "location": "/cmbs/message/l31/"
+        },
+        {
+            "term": "l32",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "L32 CMBS message",
+            "related": [],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "topics": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        }
+                    }
+                }
+            },
+            "actions": [
+                "http://houssem.org/cmbs/message/action#send_l32"
+            ],
+            "location": "/cmbs/message/l32/"
+        },
+        {
+            "term": "l4",
+            "scheme": "http://houssem.org/cmbs#",
+            "title": "L4 CMBS message",
+            "related": [],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "providers": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        },
+                        "topics": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "Array",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        }
+                    }
+                }
+            },
+            "actions": [
+                "http://houssem.org/cmbs/message/action#send_l4"
+            ],
+            "location": "/cmbs/message/l4/"
+        }
+
+    ]
+}
