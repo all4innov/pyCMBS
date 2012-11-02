@@ -67,4 +67,21 @@ class cmbs_member_backend(backend):
         Perform an action on an Entity
 
         '''
+        if action == 'check_neighbors':
+            print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+            pass
+        elif action == 'start_l1':
+            pass
+        elif action == 'start_l2':
+            pass
+        elif action == 'start_l31':
+            pass
+        elif action == 'start_l32':
+            pass
+        elif action == 'start_l4':
+            pass
         logger.debug('The Entity\'s action operation of the cmbs_member_backend')

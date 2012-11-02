@@ -1,6 +1,12 @@
 {
     "actions": [
         {
+            "term": "check_neighbors",
+            "scheme": "http://houssem.org/cmbs/member/action#",
+            "title": "check the neighbors member and try to get their description",
+            "attributes": {}
+        },
+        {
             "term": "start_l1",
             "scheme": "http://houssem.org/cmbs/member/action#",
             "title": "start the L1 of the member instance",
@@ -29,19 +35,14 @@
             "scheme": "http://houssem.org/cmbs/member/action#",
             "title": "start the L4 of the member instance",
             "attributes": {}
-        },
-        {
-            "term": "check_neighbors",
-            "scheme": "http://houssem.org/cmbs/member/action#",
-            "title": "check the neighbors member and try to get their description",
-            "attributes": {}
         }
+
     ],
     "kinds": [
         {
             "term": "member",
             "scheme": "http://houssem.org/cmbs#",
-            "title": "member of CMBS",
+            "title": "CMBS member",
             "attributes": {
                 "cmbs": {
                     "member": {
@@ -111,12 +112,12 @@
                 }
             },
             "actions": [
+                "http://houssem.org/cmbs/member/action#check_neighbors",
                 "http://houssem.org/cmbs/member/action#start_l1",
                 "http://houssem.org/cmbs/member/action#start_l2",
                 "http://houssem.org/cmbs/member/action#start_l31",
                 "http://houssem.org/cmbs/member/action#start_l32",
-                "http://houssem.org/cmbs/member/action#start_l4",
-                "http://houssem.org/cmbs/member/action#check_neighbors"
+                "http://houssem.org/cmbs/member/action#start_l4"
             ],
             "location": "/cmbs/member/"
         }

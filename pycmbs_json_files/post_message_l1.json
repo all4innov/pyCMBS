@@ -13,7 +13,8 @@
                         "sendable": "True",
                         "storable": "True",
                         "path_history": [],
-                        "message_content": ""
+                        "message_content": "",
+                        "l1_socket_receiver_member": ""
                     }
                 }
             },

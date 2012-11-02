@@ -27,6 +27,7 @@ import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
 
+
 class cmbs_message_backend(backend):
     def create(self, entity):
         '''
@@ -67,4 +68,17 @@ class cmbs_message_backend(backend):
         Perform an action on an Entity
 
         '''
+        if action == 'execute':
+            pass
+        elif action == 'send_l1':
+            pass
+        elif action == 'send_l2':
+            pass
+        elif action == 'send_l31':
+            pass
+        elif action == 'send_l32':
+            pass
+        elif action == 'send_l4':
+            pass
+
         logger.debug('The Entity\'s action operation of the cmbs_message_backend')

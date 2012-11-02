@@ -102,7 +102,19 @@
             "scheme": "http://houssem.org/cmbs#",
             "title": "L1 CMBS message",
             "related": [],
-            "attributes": {},
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "l1_socket_receiver_member": {
+                            "mutable": true,
+                            "required": false,
+                            "type": "String",
+                            "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                            "default": ""
+                        }
+                    }
+                }
+            },
             "actions": [
                 "http://houssem.org/cmbs/message/action#send_l1"
             ],
