@@ -69,16 +69,35 @@ class cmbs_message_backend(backend):
 
         '''
         if action == 'execute':
-            pass
+            execute()
         elif action == 'send_l1':
-            pass
+            send_l1()
         elif action == 'send_l2':
-            pass
+            send_l2()
         elif action == 'send_l31':
-            pass
+            send_l31()
         elif action == 'send_l32':
-            pass
+            send_l32()
         elif action == 'send_l4':
-            pass
+            send_l4()
 
         logger.debug('The Entity\'s action operation of the cmbs_message_backend')
+
+def execute():
+    pass
+
+def send_l1():
+    pass
+
+def send_l2():
+    pass
+
+def send_l31():
+    pass
+
+def send_l32():
+    pass
+
+def send_l4():
+    pass
+

@@ -73,15 +73,35 @@ class cmbs_member_backend(backend):
             print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
             print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
             print '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-            pass
+            check_neighbors()
         elif action == 'start_l1':
-            pass
+            start_l1()
         elif action == 'start_l2':
-            pass
+            start_l2()
         elif action == 'start_l31':
-            pass
+            start_l31()
         elif action == 'start_l32':
-            pass
+            start_l32()
         elif action == 'start_l4':
-            pass
+            start_l4()
+
         logger.debug('The Entity\'s action operation of the cmbs_member_backend')
+
+def check_neighbors():
+    pass
+
+def start_l1():
+    pass
+
+def start_l2():
+    pass
+
+def start_l31():
+    pass
+
+def start_l32():
+    pass
+
+def start_l4():
+    pass
+

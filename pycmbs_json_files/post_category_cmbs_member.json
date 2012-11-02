@@ -53,6 +53,13 @@
                             "pattern": "active|inactive|suspended|failed",
                             "default": "inactive"
                         },
+                        "local": {
+                            "mutable": true,
+                            "required": true,
+                            "type": "String",
+                            "pattern": "true|false",
+                            "default": "true"
+                        },
                         "l1_socket": {
                             "mutable": true,
                             "required": false,
