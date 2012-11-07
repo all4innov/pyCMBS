@@ -37,6 +37,7 @@ Thumbs.db
 
 # Folders #
 ######################
+pycmbs.egg-info/
 CMBS.egg-info/
 PyCMBS.egg-info/
 pyCMBS.egg-info/
