@@ -13,32 +13,27 @@
 #  limitations under the License.
 
 """
-Created on Nov 10, 2011
+Created on Dec 10, 2011
 
-@author: Bilel Msekni
-@contact: bilel.msekni@telecom-sudparis.eu
 @author: Houssem Medhioub
 @contact: houssem.medhioub@it-sudparis.eu
 @organization: Institut Mines-Telecom - Telecom SudParis
 @license: Apache License, Version 2.0
 """
 
-#import pyocni.backend.backend as backend
 from pyocni.backends.backend import backend
 import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
 
-class dummy_backend(backend):
-
+class l3vpn_backend(backend):
     def create(self, entity):
         '''
 
         Create an entity (Resource or Link)
 
         '''
-
-        logger.debug('The create operation of the dummy_backend')
+        logger.debug('The create operation of the l3vpn_backend')
 
     def read(self, entity):
         '''
@@ -46,7 +41,7 @@ class dummy_backend(backend):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation of the dummy_backend')
+        logger.debug('The read operation of the l3vpn_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -54,7 +49,7 @@ class dummy_backend(backend):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation of the dummy_backend')
+        logger.debug('The update operation of the l3vpn_backend')
 
     def delete(self, entity):
         '''
@@ -62,18 +57,12 @@ class dummy_backend(backend):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation of the dummy_backend')
+        logger.debug('The delete operation of the l3vpn_backend')
 
-    def action(self, entity, action, attributes):
+    def action(self, entity, action):
         '''
 
         Perform an action on an Entity
 
         '''
-
-        print "i got entity = " + str(entity)
-        print "i got to do action = " + action
-        print " my attributes are = "
-        print attributes
-
-        logger.debug('The Entity\'s action operation of the dummy_backend')
+        logger.debug('The Entity\'s action operation of the l3vpn_backend')

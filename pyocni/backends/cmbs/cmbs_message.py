@@ -69,7 +69,17 @@ class cmbs_message_backend(backend):
 
         '''
         if action == 'execute':
-            execute()
+            cmbs_layer = entity['attributes']['cmbs']['message']['cmbs_layer']
+            if cmbs_layer ==  'l1':
+                execute_l1()
+            elif cmbs_layer == 'l2':
+                execute_l2()
+            elif cmbs_layer == 'l31':
+                execute_l31()
+            elif cmbs_layer == 'l32':
+                execute_l32()
+            elif cmbs_layer == 'l4':
+                execute_l4()
         elif action == 'send_l1':
             send_l1()
         elif action == 'send_l2':
@@ -83,7 +93,19 @@ class cmbs_message_backend(backend):
 
         logger.debug('The Entity\'s action operation of the cmbs_message_backend')
 
-def execute():
+def execute_l1():
+    pass
+
+def execute_l2():
+    pass
+
+def execute_l31():
+    pass
+
+def execute_l32():
+    pass
+
+def execute_l4():
     pass
 
 def send_l1():
