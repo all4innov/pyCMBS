@@ -22,13 +22,13 @@ Created on Sep 01, 2011
 """
 
 #import pyocni.backend.backend as backend
-from pyocni.backends.backend import backend
+from pyocni.backends.backend import backend_interface
 import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
 
 
-class cmbs_message_backend(backend):
+class cmbs_message_backend(backend_interface):
     def create(self, entity):
         '''
 
