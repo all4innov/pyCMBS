@@ -76,7 +76,7 @@ class backend(backend.backend_interface):
         '''
 #        logger.debug('The delete operation of the cmbs_member_backend')
 
-    def action(self, entity, action):
+    def action(self, entity, action, attributes):
         '''
 
         Perform an action on an Entity
