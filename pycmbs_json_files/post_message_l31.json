@@ -1,0 +1,28 @@
+{
+    "resources": [
+        {
+            "kind": "http://houssem.org/cmbs#message",
+            "mixins": [
+                 "http://houssem.org/cmbs#l31"
+            ],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "cmbs_layer": "l31",
+                        "executable": "True",
+                        "sendable": "True",
+                        "storable": "True",
+                        "path_history": [],
+                        "message_content": "",
+                        "providers": []
+                    }
+                }
+            },
+            "actions": [],
+            "id": "886ad860-2a9a-504f-8861-aeafd0a1ae31",
+            "title": "l31 CMBS message",
+            "summary": "This is a L31 CMBS message",
+            "links": []
+        }
+    ]
+}

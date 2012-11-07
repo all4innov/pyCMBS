@@ -1,0 +1,28 @@
+{
+    "resources": [
+        {
+            "kind": "http://houssem.org/cmbs#member",
+            "mixins": [],
+            "attributes": {
+                "cmbs": {
+                    "member": {
+                        "state": "active",
+                        "local": "true",
+                        "l1_socket": "tcp://127.0.0.1:5010",
+                        "l2_socket": "tcp://127.0.0.1:5020",
+                        "l31_socket": "tcp://127.0.0.1:5031",
+                        "l32_socket": "tcp://127.0.0.1:5032",
+                        "l4_socket": "tcp://127.0.0.1:5040",
+                        "neighbors_socket": [],
+                        "topics": []
+                    }
+                }
+            },
+            "actions": [],
+            "id": "996ad860-2a9a-504f-8861-aeafd0b2ae29",
+            "title": "member of CMBS",
+            "summary": "This is a member of CMBS",
+            "links": []
+        }
+    ]
+}

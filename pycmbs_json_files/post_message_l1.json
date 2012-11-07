@@ -1,0 +1,28 @@
+{
+    "resources": [
+        {
+            "kind": "http://houssem.org/cmbs#message",
+            "mixins": [
+                 "http://houssem.org/cmbs#l1"
+            ],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "cmbs_layer": "l1",
+                        "executable": "True",
+                        "sendable": "True",
+                        "storable": "True",
+                        "path_history": [],
+                        "message_content": "",
+                        "l1_socket_receiver_member": ""
+                    }
+                }
+            },
+            "actions": [],
+            "id": "886ad860-2a9a-504f-8861-aeafd0b2ae01",
+            "title": "l1 CMBS message",
+            "summary": "This is a L1 CMBS message",
+            "links": []
+        }
+    ]
+}

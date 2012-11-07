@@ -1,0 +1,27 @@
+{
+    "resources": [
+        {
+            "kind": "http://houssem.org/cmbs#message",
+            "mixins": [
+                 "http://houssem.org/cmbs#l2"
+            ],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "cmbs_layer": "l2",
+                        "executable": "True",
+                        "sendable": "True",
+                        "storable": "True",
+                        "path_history": [],
+                        "message_content": ""
+                    }
+                }
+            },
+            "actions": [],
+            "id": "886ad860-2a9a-504f-8861-aeafd0a1ae02",
+            "title": "l2 CMBS message",
+            "summary": "This is a L2 CMBS message",
+            "links": []
+        }
+    ]
+}

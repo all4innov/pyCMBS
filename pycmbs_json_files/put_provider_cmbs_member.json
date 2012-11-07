@@ -1,0 +1,15 @@
+{
+    "providers": [
+        {
+            "Provider": {
+                "local": [
+                    "cmbs_member"
+                ],
+                "remote": [
+
+                ]
+            },
+            "OCCI_ID": "http://houssem.org/cmbs#member"
+        }
+    ]
+}
