@@ -1,0 +1,13 @@
+{
+    "backends":
+            [
+                {
+                    "name": "cmbs_member",
+                    "path": "/home/houssem/MyPycharmProjects/pyCMBS/cmbs_backends/cmbs_member.py"
+                },
+                {
+                    "name": "cmbs_message",
+                    "path": "/home/houssem/MyPycharmProjects/pyCMBS/cmbs_backends/cmbs_message.py"
+                }
+            ]
+}
