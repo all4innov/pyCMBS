@@ -20,15 +20,18 @@ Created on Sep 01, 2011
 @organization: Institut Mines-Telecom - Telecom SudParis
 @license: Apache License, Version 2.0
 """
+import cmbs_backends.backend as backend
 
 #import pyocni.backend.backend as backend
-from pyocni.backends.backend import backend_interface
-import pyocni.pyocni_tools.config as config
+#from pyocni.backends.backend import backend_interface
+#import pyocni.pyocni_tools.config as config
+
+
 # getting the Logger
-logger = config.logger
+#logger = config.logger
 
 
-class cmbs_message_backend(backend_interface):
+class backend(backend.backend_interface):
     def create(self, entity):
         '''
 
@@ -36,7 +39,7 @@ class cmbs_message_backend(backend_interface):
 
         '''
 
-        logger.debug('The create operation of the cmbs_message_backend')
+#        logger.debug('The create operation of the cmbs_message_backend')
 
     def read(self, entity):
         '''
@@ -44,7 +47,7 @@ class cmbs_message_backend(backend_interface):
         Get the Entity's information
 
         '''
-        logger.debug('The read operation of the cmbs_message_backend')
+#        logger.debug('The read operation of the cmbs_message_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -52,7 +55,7 @@ class cmbs_message_backend(backend_interface):
         Update an Entity's information
 
         '''
-        logger.debug('The update operation of the cmbs_message_backend')
+#        logger.debug('The update operation of the cmbs_message_backend')
 
     def delete(self, entity):
         '''
@@ -60,7 +63,7 @@ class cmbs_message_backend(backend_interface):
         Delete an Entity
 
         '''
-        logger.debug('The delete operation of the cmbs_message_backend')
+#        logger.debug('The delete operation of the cmbs_message_backend')
 
     def action(self, entity, action):
         '''
@@ -91,7 +94,7 @@ class cmbs_message_backend(backend_interface):
         elif action == 'send_l4':
             send_l4()
 
-        logger.debug('The Entity\'s action operation of the cmbs_message_backend')
+#        logger.debug('The Entity\'s action operation of the cmbs_message_backend')
 
 def execute_l1():
     pass
