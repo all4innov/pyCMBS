@@ -41,7 +41,7 @@ Thumbs.db
 build/
 dist/
 pyocni.egg-info/
-
+pycmbs.egg-info/
 
 
 # Testing file
