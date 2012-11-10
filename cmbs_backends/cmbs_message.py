@@ -20,7 +20,13 @@ Created on Sep 01, 2011
 @organization: Institut Mines-Telecom - Telecom SudParis
 @license: Apache License, Version 2.0
 """
+import pyocni.pyocni_tools.config as config
+# getting the Logger
+logger = config.logger
+
 import cmbs_backends.backend as backend
+
+import zmq
 
 #import pyocni.backend.backend as backend
 #from pyocni.backends.backend import backend_interface
@@ -111,8 +117,22 @@ def execute_l32():
 def execute_l4():
     pass
 
-def send_l1():
-    pass
+def send_l1(zmq_server='tcp://127.0.0.1:5010', message='{"a":"c"}'):
+    try:
+        context = zmq.Context()
+        socket = context.socket(zmq.REQ)
+        socket.connect(zmq_server)
+        logger.debug("sending the request to the server: ")
+        socket.send_json(message)
+
+        msg_in = socket.recv_json()
+        logger.debug('Receiving the replay:')
+        print type(msg_in)
+        print msg_in
+        return msg_in
+    except Exception as e:
+        print ''
+
 
 def send_l2():
     pass
@@ -126,3 +146,5 @@ def send_l32():
 def send_l4():
     pass
 
+if __name__ == "__main__":
+    send_l1()

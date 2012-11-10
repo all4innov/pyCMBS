@@ -57,7 +57,8 @@ setup(name='pycmbs',
           'httplib2',
           'couchdb',
           'couchdbkit',
-          'tornado'
+          'tornado',
+          'pycurl'
           #'pack>=0.97',
           #'pack'
       ],
