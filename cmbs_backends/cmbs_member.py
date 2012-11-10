@@ -47,17 +47,21 @@ import zmq
 import threading
 from threading import Thread
 
-# getting the Logger
-#logger = config.logger
 
-receiver_l1_state = True
-receiver_l2_state = True
-receiver_l31_state = True
-receiver_l32_state = True
-receiver_l4_state = True
+if not ('receiver_l1_state' in globals()):  receiver_l1_state = True
+if not ('receiver_l2_state' in globals()):  receiver_l2_state = True
+if not ('receiver_l31_state' in globals()): receiver_l31_state = True
+if not ('receiver_l32_state' in globals()): receiver_l32_state = True
+if not ('receiver_l4_state' in globals()):  receiver_l4_state = True
+
+if not ('receiver_l1_socket' in globals()):  receiver_l1_socket = ''
+if not ('receiver_l2_socket' in globals()):  receiver_l2_socket = ''
+if not ('receiver_l31_socket' in globals()): receiver_l31_socket = ''
+if not ('receiver_l32_socket' in globals()): receiver_l32_socket = ''
+if not ('receiver_l4_socket' in globals()):  receiver_l4_socket = ''
 
 class receiver_l1(threading.Thread):
-    def __init__(self, name = 'l1_receiver', l1_socket='tcp://127.0.0.1:5010'):
+    def __init__(self, name = '', l1_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l1_socket = l1_socket
@@ -65,20 +69,24 @@ class receiver_l1(threading.Thread):
         receiver_l1_state = True
     def run(self):
 
-        context = zmq.Context()
-        socket = context.socket(zmq.REP)
-        socket.bind(self.l1_socket)
+        try:
+            context = zmq.Context()
+            socket = context.socket(zmq.REP)
+            global receiver_l1_socket
+            socket.bind(receiver_l1_socket)
 
-        global receiver_l1_state
-        while True:
-            msg = socket.recv_json()
-            # to avoid receiving a message after
-            if not receiver_l1_state:
-                break
-            print type(msg)
-            print "Got", msg
+            global receiver_l1_state
+            while True:
+                msg = socket.recv_json()
+                # to avoid receiving a message after
+                if not receiver_l1_state:
+                    break
+                print type(msg)
+                print "Got", msg
 
-            socket.send_json("{'d':'f'}")
+                socket.send_json("{'d':'f'}")
+        except Exception as e:
+            logger.warning("ZMQError: " + str(e))
 
     def stop(self):
         global receiver_l1_state
@@ -167,6 +175,7 @@ def check_socket(socket):
     # return the number of the result: 0 if no result
     return len(json_result["X-OCCI-Location"])
 
+
 class backend(backend.backend_interface):
     receiver_l1_ins = receiver_l1(name='l1_receiver')
     receiver_l1_ins.daemon = True
@@ -179,6 +188,9 @@ class backend(backend.backend_interface):
     receiver_l4_ins = receiver_l4(name='l4_receiver')
     receiver_l4_ins.daemon = True
 
+    def __init__(self):
+        pass
+
     def create(self, entity):
         '''
 
@@ -186,7 +198,18 @@ class backend(backend.backend_interface):
 
         '''
 
-    #        logger.debug('The create operation of the cmbs_member_backend')
+        global receiver_l1_socket
+        receiver_l1_socket = entity['attributes']['cmbs']['member']['l1_socket']
+        global receiver_l2_socket
+        receiver_l2_socket = entity['attributes']['cmbs']['member']['l2_socket']
+        global receiver_l31_socket
+        receiver_l31_socket = entity['attributes']['cmbs']['member']['l31_socket']
+        global receiver_l32_socket
+        receiver_l32_socket = entity['attributes']['cmbs']['member']['l32_socket']
+        global receiver_l4_socket
+        receiver_l4_socket = entity['attributes']['cmbs']['member']['l4_socket']
+
+#        logger.debug('The create operation of the cmbs_member_backend')
 
     def read(self, entity):
         '''
@@ -218,10 +241,8 @@ class backend(backend.backend_interface):
         Perform an action on an Entity
 
         '''
-
         if action == 'check_neighbors':
             neighbors_socket = entity['attributes']['cmbs']['member']['neighbors_socket']
-            #check_neighbors(neighbors_socket)
             t = Thread(target=check_neighbors, args=(neighbors_socket,))
             t.start()
         elif action == 'start_l1':
@@ -244,6 +265,7 @@ class backend(backend.backend_interface):
             self.receiver_l32_ins.stop()
         elif action == 'stop_l4':
             self.receiver_l4_ins.stop()
+
 #        logger.debug('The Entity\'s action operation of the cmbs_member_backend')
 
 

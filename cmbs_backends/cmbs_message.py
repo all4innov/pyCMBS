@@ -117,21 +117,18 @@ def execute_l32():
 def execute_l4():
     pass
 
-def send_l1(zmq_server='tcp://127.0.0.1:5010', message='{"a":"c"}'):
+def send_l1(zmq_server='tcp://127.0.0.1:5010', message='{"a":"b"}'):
     try:
         context = zmq.Context()
         socket = context.socket(zmq.REQ)
         socket.connect(zmq_server)
         logger.debug("sending the request to the server: ")
         socket.send_json(message)
-
         msg_in = socket.recv_json()
         logger.debug('Receiving the replay:')
-        print type(msg_in)
-        print msg_in
         return msg_in
     except Exception as e:
-        print ''
+        logger.error("Error on the send_l1 request")
 
 
 def send_l2():
