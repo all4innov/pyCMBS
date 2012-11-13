@@ -72,7 +72,7 @@ def choose_appropriate_provider(provider):
             #print i["path"]
             backend_instance = imp.load_source('', i["path"])
             backend = backend_instance.backend()
-            backend.create('a')
+            #backend.create('a')
 
     #    if provider == "dummy":
     #        backend = dummy_backend.dummy_backend()
@@ -143,7 +143,7 @@ def create_entity(entity,res_adr):
     kind = entity['OCCI_Description']['kind']
     provider = get_provider_of_a_kind(kind)
     backend = choose_appropriate_provider(provider)
-    backend.create(entity['OCCI_Description'],res_adr)
+    backend.create(entity['OCCI_Description'])
 
 
 def update_entity(old_data, new_data):

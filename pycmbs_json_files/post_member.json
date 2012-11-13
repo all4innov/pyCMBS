@@ -13,7 +13,7 @@
                         "l31_socket": "tcp://127.0.0.1:5031",
                         "l32_socket": "tcp://127.0.0.1:5032",
                         "l4_socket": "tcp://127.0.0.1:5040",
-                        "neighbors_socket": [],
+                        "neighbors_socket": ["tcp://127.0.0.1:6010"],
                         "topics": []
                     }
                 }

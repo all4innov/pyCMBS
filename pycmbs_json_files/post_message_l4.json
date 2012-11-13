@@ -13,7 +13,7 @@
                         "sendable": "True",
                         "storable": "True",
                         "path_history": [],
-                        "message_content": "",
+                        "message_content": {},
                         "providers": [],
                         "topics": []
                     }

@@ -110,27 +110,22 @@ class SingleEntityJungler(object):
                 else:
                     if jBody.has_key('resources'):
                         logger.debug("===== Channel_put_single_resources ==== : Resource full update channeled")
-                        entity, resp_code_r = self.manager_r.update_resource(olddoc['OCCI_Description'],jBody['resources'][0],db_occi_ids_locs)
+                        entity = jBody['resources'][0]
+
                     else:
-                        resp_code_r = return_code['OK, and location returned']
+                        if jBody.has_key('links'):
+                            logger.debug("===== Channel_put_single_resources ==== : Link full update channeled")
+                            entity = jBody['links'][0]
 
-                    if jBody.has_key('links'):
-                        logger.debug("===== Channel_put_single_resources ==== : Link full update channeled")
-                        entity, resp_code_l = self.manager_l.update_link(olddoc['OCCI_Description'],jBody['links'][0],db_occi_ids_locs)
-                    else:
-                        resp_code_l = return_code['OK, and location returned']
-
-                    if resp_code_r is not return_code['OK, and location returned'] or resp_code_l is not return_code['OK, and location returned']:
-                        return "An error has occurred, please check log for more details",return_code['Bad Request']
-
+                    old_desc = olddoc['OCCI_Description']
                     olddoc['OCCI_Description'] = entity
 
-                    self.PostMan.save_updated_docs_in_db(olddoc)
+                    self.PostMan.save_partial_updated_doc_in_db(olddoc)
 
                     logger.debug("===== Channel_post_single_resource ==== : Finished (2b) with success")
                     #return the locations of the resources
 
-                    backend_m.update_entity(entity,entity)
+                    backend_m.update_entity(old_desc,entity)
 
                     return olddoc['OCCI_Location'],return_code['OK, and location returned']
 
@@ -148,13 +143,12 @@ class SingleEntityJungler(object):
 
         elif res is 0:
             logger.warning("===== Channel_get_single_resource ==== : Resource not found")
+            return "",return_code['Not Found']
 
         else:
             logger.debug("===== Channel_get_single_resource ==== : Finished with success")
-
             #backend_m.read_entity(entity,entity['kind'])
-
-            return res,return_code['OK']
+            return entity,return_code['OK']
 
     def channel_post_single_resource(self, jBody, path_url):
         """
@@ -200,7 +194,8 @@ class SingleEntityJungler(object):
                 return "An error has occurred, please check log for more details",return_code['Bad Request']
 
             old_doc['OCCI_Description'] = entity
-            self.PostMan.save_updated_docs_in_db(old_doc)
+
+            self.PostMan.save_partial_updated_doc_in_db(old_doc)
 #            self.PostMan.database.save_doc(old_doc,force_update=True, all_or_nothing=True)
             logger.debug("===== Channel_post_single_resource ==== : Finished with success")
             backend_m.update_entity(old_data,entity)

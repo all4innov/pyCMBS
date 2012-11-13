@@ -14,7 +14,8 @@
                         "storable": "True",
                         "path_history": [],
                         "message_content": "",
-                        "l1_socket_receiver_member": ""
+                        "l1_socket_receiver_member": "tcp://127.0.0.1:5010",
+                        "result": ""
                     }
                 }
             },

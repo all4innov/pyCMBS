@@ -21,6 +21,11 @@ Created on Sep 01, 2011
 @license: Apache License, Version 2.0
 """
 
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 def j_cmbs_member_l1_socket_att(socket):
     return """
     {
@@ -38,5 +43,69 @@ def j_cmbs_member_l1_socket_att(socket):
     }
     """
 
+def j_cmbs_member_member_local_att():
+    return """
+    {
+        "resources": [
+            {
+                "attributes": {
+                    "cmbs": {
+                        "member": {
+                            "local": "true"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+    """
+
+def j_cmbs_message(l1_socket_receiver_member, id):
+    return """{
+    "resources": [
+        {
+            "kind": "http://houssem.org/cmbs#message",
+            "mixins": [
+                "http://houssem.org/cmbs#l1"
+            ],
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "cmbs_layer": "l1",
+                        "executable": "True",
+                        "sendable": "True",
+                        "storable": "True",
+                        "path_history": [],
+                        "message_content": "",
+                        "l1_socket_receiver_member": \"""" + l1_socket_receiver_member + """\",
+                        "result": ""
+                    }
+                }
+            },
+            "actions": [],
+            "id": \"""" + id + """\",
+            "title": "l1 CMBS message",
+            "summary": "This is a L1 CMBS message",
+            "links": []
+        }
+    ]
+}
+"""
+def j_cmbs_message_update_result(result):
+    return """{
+    "resources": [
+        {
+            "attributes": {
+                "cmbs": {
+                    "message": {
+                        "result": """ + result + """
+                    }
+                }
+            }
+        }
+    ]
+}
+"""
 if __name__ == '__main__':
-    print (j_cmbs_member_l1_socket_att("a"))
+    #print (j_cmbs_member_l1_socket_att("a"))
+    print j_cmbs_message_update_result({"a":"b"})
