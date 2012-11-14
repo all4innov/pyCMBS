@@ -58,7 +58,8 @@ setup(name='pycmbs',
           'couchdb',
           'couchdbkit',
           'tornado',
-          'pycurl'
+          'pycurl',
+          'pyzmq'
           #'pack>=0.97',
           #'pack'
       ],
