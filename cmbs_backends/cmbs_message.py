@@ -156,8 +156,8 @@ class backend(backend.backend_interface):
             elif cmbs_layer == 'l4':
                 exe_l4 = Thread(target=execute_l4, args=())
                 exe_l4.start()
-        elif action == 'send_l1' and cmbs_layer == 'l1' and entity['attributes']['cmbs']['message'][
-                                                            'sendable'] == 'True':
+        elif action == 'send_l1' and cmbs_layer == 'l1' and\
+             entity['attributes']['cmbs']['message']['sendable'] == 'True':
             sen_l1 = Thread(target=send_l1,
                 args=(entity['attributes']['cmbs']['message']['l1_socket_receiver_member'], entity))
             sen_l1.start()
