@@ -21,26 +21,21 @@ Created on Sep 01, 2011
 @license: Apache License, Version 2.0
 """
 
-#import pyocni.backend.backend as backend
-#from  backend import backend_interface
 import pyocni.pyocni_tools.config as config
 # getting the Logger
 logger = config.logger
+
 import cmbs_backends.backend as backend
-import pycurl
-import StringIO
 import cmbs_backends.f_entities as f_entities
-import logging
+import cmbs_backends.member_rest as member_rest
+import cmbs_backends.message_rest as message_rest
+
 try:
     import simplejson as json
 except ImportError:
     import json
 
-from multiprocessing import Process
 import time
-import cStringIO
-import jsonpickle
-import couchdb
 
 import zmq
 
@@ -48,7 +43,6 @@ import threading
 from threading import Thread
 
 import uuid
-import pprint
 
 if not ('receiver_l1_state' in globals()):  receiver_l1_state = True
 if not ('receiver_l2_state' in globals()):  receiver_l2_state = True
@@ -67,64 +61,52 @@ def get_UUID():
     #_uuid = str(uuid.uuid4())
     return _uuid
 
+
 class receiver_l1(threading.Thread):
-    def __init__(self, name = '', l1_socket=''):
+    def __init__(self, name='', l1_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l1_socket = l1_socket
         global receiver_l1_state
         receiver_l1_state = True
+
     def run(self):
+        context = zmq.Context()
+        socket = context.socket(zmq.REP)
+        global receiver_l1_socket
+        socket.bind(receiver_l1_socket)
 
-        #try:
-            context = zmq.Context()
-            socket = context.socket(zmq.REP)
-            global receiver_l1_socket
-            socket.bind(receiver_l1_socket)
+        global receiver_l1_state
+        while True:
+            msg = socket.recv_json()
+            # an if to avoid executing a message after stopping the receiver
+            if not receiver_l1_state:  break
 
-            global receiver_l1_state
-            while True:
-                msg = socket.recv_json()
-                # an if to avoid executing a message after stopping the receiver
-                if not receiver_l1_state:  break
+            if member_rest.check_member(msg['attributes']['cmbs']['message']['message_content']['id']) > 0:
+                logger.debug("This provider is already know.")
+            else:
+                logger.debug("Adding the received member description to the DB.")
+                member_rest.add_member(msg['attributes']['cmbs']['message']['message_content'])
 
-                print type(msg)
-                print "Got", msg
 
-                #print '???????????????????????????'
-                #print type(msg)
-                #print msg
+            response = {"member_description": member_rest.get_local_member_description_for_sending(member_rest.get_local_member_uri()),
+                        "sockets_l1": member_rest.get_members_l1_socket()}
 
-                if check_member(msg['attributes']['cmbs']['message']['message_content']['id']) > 0:
-                    #print 'pppppppppppppppppppppppppppppppppppppp'
-                    logger.debug("This provider is already know.")
-                else:
-                    logger.debug("Adding the received member description to the DB.")
-                    #print '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
-                    #print type(msg['attributes']['cmbs']['message']['message_content'])
-                    #print msg['attributes']['cmbs']['message']['message_content']
-                    add_member(msg['attributes']['cmbs']['message']['message_content'])
-                    #print ']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]'
-
-                response = {"member_description": get_local_member_description(get_local_member_uri()), "sockets_l1": get_members_l1_socket()}
-                #print '/////////////////////////////////////////////'
-                #print type(response)
-                #print response
-                socket.send_json(response)
-        #except Exception as e:
-        #    logger.warning("ZMQError: " + str(e))
+            socket.send_json(response)
 
     def stop(self):
         global receiver_l1_state
         receiver_l1_state = False
 
+
 class receiver_l2(threading.Thread):
-    def __init__(self, name = 'l2_receiver', l2_socket='tcp://127.0.0.1:5020'):
+    def __init__(self, name='l2_receiver', l2_socket='tcp://127.0.0.1:5020'):
         threading.Thread.__init__(self)
         self.name = name
         self.l2_socket = l2_socket
         global receiver_l2_state
         receiver_l2_state = True
+
     def run(self):
         pass
 
@@ -132,13 +114,15 @@ class receiver_l2(threading.Thread):
         global receiver_l2_state
         receiver_l2_state = False
 
+
 class receiver_l31(threading.Thread):
-    def __init__(self, name = 'l31_receiver', l31_socket='tcp://127.0.0.1:5031'):
+    def __init__(self, name='l31_receiver', l31_socket='tcp://127.0.0.1:5031'):
         threading.Thread.__init__(self)
         self.name = name
         self.l31_socket = l31_socket
         global receiver_l31_state
         receiver_l31_state = True
+
     def run(self):
         pass
 
@@ -146,13 +130,15 @@ class receiver_l31(threading.Thread):
         global receiver_l31_state
         receiver_l31_state = False
 
+
 class receiver_l32(threading.Thread):
-    def __init__(self, name = 'l32_receiver', l32_socket='tcp://127.0.0.1:5032'):
+    def __init__(self, name='l32_receiver', l32_socket='tcp://127.0.0.1:5032'):
         threading.Thread.__init__(self)
         self.name = name
         self.l32_socket = l32_socket
         global receiver_l32_state
         receiver_l32_state = True
+
     def run(self):
         pass
 
@@ -160,13 +146,15 @@ class receiver_l32(threading.Thread):
         global receiver_l32_state
         receiver_l32_state = False
 
+
 class receiver_l4(threading.Thread):
-    def __init__(self, name = 'l4_receiver', l4_socket='tcp://127.0.0.1:5040'):
+    def __init__(self, name='l4_receiver', l4_socket='tcp://127.0.0.1:5040'):
         threading.Thread.__init__(self)
         self.name = name
         self.l4_socket = l4_socket
         global receiver_l4_state
         receiver_l4_state = True
+
     def run(self):
         pass
 
@@ -174,26 +162,26 @@ class receiver_l4(threading.Thread):
         global receiver_l4_state
         receiver_l4_state = False
 
+
 def check_neighbors(neighbors_socket):
     while len(neighbors_socket) > 0:
         socket = neighbors_socket[0]
 
-        if check_socket(socket) > 0:
+        if member_rest.check_socket(socket) > 0:
             logger.debug("The member with the socket: " + str(socket) + " is already known.")
         else:
-            logger.debug("The member with the socket: " + str(socket) + " is unknown. A discovery request will be sent.")
+            logger.debug(
+                "The member with the socket: " + str(socket) + " is unknown. A discovery request will be sent.")
 
-            mes_id= get_UUID()
-            mes = f_entities.j_cmbs_message(socket,mes_id)
-            #print '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
-            location = add_message(mes)
+            mes_id = get_UUID()
+            mes = f_entities.j_cmbs_message(socket, mes_id)
+            location = message_rest.add_message(mes)
             print 'location is: '
             print location
-            #print '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-            #print type(location)
-            #print location
+
             time.sleep(2)
-            content = send_l1_message(location)
+
+            content = message_rest.send_l1_message(location)
             print '++++++++++++++++++++++++++++'
             print '++++++++++++++++++++++++++++'
             print '++++++++++++++++++++++++++++'
@@ -203,237 +191,26 @@ def check_neighbors(neighbors_socket):
 
             print type(content)
             print content
-            #h = json.loads(content)
             print '++++++++++++++++++++++++++++'
             print '++++++++++++++++++++++++++++'
             print '++++++++++++++++++++++++++++'
-            #print '++++++++++++++++++++++++++++'
-            #print type(h)
-            #print h
+
             time.sleep(2)
 
-            add_member(content["member_description"])
+            member_rest.add_member(content["member_description"])
             for soc in content["sockets_l1"]:
-                if check_socket(soc)> 0:
+                if member_rest.check_socket(soc) > 0:
                     logger.debug("The member with the socket: " + str(socket) + " is already known.")
                 else:
-                    logger.debug("adding the cloud provider with the : " + str(socket) + " to the list of neighbors_socket that will be discovered.")
+                    logger.debug("adding the cloud provider with the : " + str(
+                        socket) + " to the list of neighbors_socket that will be discovered.")
                     neighbors_socket.append(soc)
 
         del neighbors_socket[0]
 
 
-def check_socket(socket):
-    c = pycurl.Curl()
-
-    storage = StringIO.StringIO()
-    c.setopt(c.URL, str(config.PyOCNI_Server_Address + "/cmbs/member/"))
-    c.setopt(c.HTTPHEADER, ['Content-type: application/occi+json', 'Accept: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.setopt(c.POSTFIELDS,f_entities.j_cmbs_member_l1_socket_att(socket))
-    c.perform()
-    content = storage.getvalue()
-    json_result = json.loads(content)
-    # return the number of the result: 0 if no result
-    return len(json_result["X-OCCI-Location"])
-
-def check_member(id):
-    c = pycurl.Curl()
-
-    #print "2222222222222222222222222222222222222222"
-    storage_header = StringIO.StringIO()
-    storage_body = StringIO.StringIO()
 
 
-    c.setopt(c.URL, str(config.PyOCNI_Server_Address + "/cmbs/member/" + id))
-    c.setopt(c.HTTPHEADER, ['Content-type: application/occi+json', 'Accept: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.HEADERFUNCTION, storage_header.write)
-    c.setopt(c.WRITEFUNCTION, storage_body.write)
-    c.perform()
-    header = storage_header.getvalue()
-    content = storage_body.getvalue()
-    #print '3333333333333333333333333333333333333333"'
-
-    if c.getinfo(pycurl.HTTP_CODE) == 404:
-        return 0
-    elif c.getinfo(pycurl.HTTP_CODE) == 200:
-        return 1
-    #json_result = json.loads(content)
-    # return the number of the result: 0 if no result
-    #return len(json_result["resources"])
-
-def add_member(member_description):
-    storage = StringIO.StringIO()
-    c = pycurl.Curl()
-    c.setopt(c.URL, config.PyOCNI_Server_Address + '/cmbs/member/')
-    c.setopt(c.HTTPHEADER, ['Accept:application/occi+json', 'Content-Type: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    #print 'DSFQDFSDFQSDFSDQFSQDFDSFSDFSQDFSDQFSQDFSQDFQSDFDSF'
-
-    h = {"resources": [member_description]}
-    #print type(h)
-    #print h
-    #print type(json.dumps(h))
-    #print json.dumps(h)
-    c.setopt(pycurl.POSTFIELDS, json.dumps(h))
-    c.setopt(c.CUSTOMREQUEST, 'POST')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.perform()
-    content = storage.getvalue()
-    print " ========== Body content ==========\n " + content + " \n ==========\n"
-
-def get_members():
-    storage = StringIO.StringIO()
-    c = pycurl.Curl()
-    c.setopt(c.URL, config.PyOCNI_Server_Address + '/cmbs/member/')
-    c.setopt(c.HTTPHEADER, ['Accept:application/occi+json', 'Content-Type: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    # surtout rien dans le body car sinon ca devient un filtre
-    #c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.perform()
-    content = storage.getvalue()
-    # content:    {"X-OCCI-Location": ["http://127.0.0.1:8090/cmbs/member/996ad860-2a9a-504f-8861-aeafd0b2ae29"]}
-    print  (config.PyOCNI_Server_Address + '/cmbs/member/')
-    print " ========== Body content ==========\n " + content + " \n ==========\n"
-    json_result = json.loads(content)
-    return json_result["X-OCCI-Location"]
-
-def get_members_l1_socket():
-    result = []
-    locations = get_members()
-    for a in locations:
-        storage = StringIO.StringIO()
-        c = pycurl.Curl()
-        print 'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-        print a
-        c.setopt(c.URL, a)
-        c.setopt(c.HTTPHEADER, ['Accept:application/occi+json', 'Content-Type: application/occi+json'])
-        c.setopt(c.VERBOSE, True)
-        c.setopt(pycurl.POSTFIELDS, "{}")
-        c.setopt(c.CUSTOMREQUEST, 'GET')
-        c.setopt(c.WRITEFUNCTION, storage.write)
-        c.perform()
-        content = storage.getvalue()
-        # content:    {"X-OCCI-Location": ["http://127.0.0.1:8090/cmbs/member/996ad860-2a9a-504f-8861-aeafd0b2ae29"]}
-        print " ========== Body content ==========\n " + content + " \n ==========\n"
-        result.append(json.loads(content)['attributes']['cmbs']['member']['l1_socket'])
-    return  result
-
-def add_message(message_description):
-    storage = StringIO.StringIO()
-    c = pycurl.Curl()
-    c.setopt(c.URL, config.PyOCNI_Server_Address + "/cmbs/message/")
-    c.setopt(c.HTTPHEADER, ['Accept:application/occi+json', 'Content-Type: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, message_description)
-    c.setopt(c.CUSTOMREQUEST, 'POST')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    print message_description
-    c.perform()
-    content = storage.getvalue()
-    json_result = json.loads(content)
-    print " ========== Body content ==========\n " + content + " \n ==========\n"
-    return json_result["Location"][0]
-
-def send_l1_message(location):
-    storage = StringIO.StringIO()
-    c = pycurl.Curl()
-    print location
-    c.setopt(c.URL, location + "?action=send_l1")
-    c.setopt(c.HTTPHEADER, ['Accept:application/occi+json', 'Content-Type: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'POST')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXx'
-    print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXx'
-    c.perform()
-    print 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
-
-    time.sleep(4)
-
-    res = get_result_from_message(location)
-
-    print '(((((((((((((((((((((((((((((((((((((((((((((((('
-    print '(((((((((((((((((((((((((((((((((((((((((((((((('
-    print '(((((((((((((((((((((((((((((((((((((((((((((((('
-    print type(res)
-    print res
-
-    content = storage.getvalue()
-    print type(json.loads(json.dumps(content)))
-    print json.loads(json.dumps(content))
-    print 'BLABLABLABLABLALBLAAAAAABLAAAAAAAA'
-    #json_result = json.loads(json.dumps(content))
-    print " ========== Body content ==========\n " + content + " \n ==========\n"
-    return res
-
-def get_local_member_uri():
-    c = pycurl.Curl()
-
-    storage = StringIO.StringIO()
-    c.setopt(c.URL, str(config.PyOCNI_Server_Address + "/cmbs/member/"))
-    c.setopt(c.HTTPHEADER, ['Content-type: application/occi+json', 'Accept: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.setopt(c.POSTFIELDS,f_entities.j_cmbs_member_member_local_att())
-    c.perform()
-    content = storage.getvalue()
-    json_result = json.loads(content)
-    return json_result["X-OCCI-Location"][0]
-
-def get_local_member_description(uri):
-    c = pycurl.Curl()
-
-    storage = StringIO.StringIO()
-    c.setopt(c.URL, str(uri))
-    c.setopt(c.HTTPHEADER, ['Content-type: application/occi+json', 'Accept: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.perform()
-    content = storage.getvalue()
-    json_result = json.loads(content)
-    # should be like that but...
-    #json_result["resources"][0]["attributes"]['cmbs']['member']['local'] = 'false'
-    json_result["attributes"]['cmbs']['member']['local'] = 'false'
-    # should be like that but...
-    #return json_result["resources"][0]
-    return json_result
-
-def get_result_from_message(location):
-    c = pycurl.Curl()
-
-    print 'DSFGSDQFQSDFSDF LOOOOOOOOOOOOCATION'
-    print location
-    storage = StringIO.StringIO()
-    c.setopt(c.URL, str(location))
-    c.setopt(c.HTTPHEADER, ['Content-type: application/occi+json', 'Accept: application/occi+json'])
-    c.setopt(c.VERBOSE, True)
-    c.setopt(pycurl.POSTFIELDS, "{}")
-    c.setopt(c.CUSTOMREQUEST, 'GET')
-    c.setopt(c.WRITEFUNCTION, storage.write)
-    c.perform()
-    content = storage.getvalue()
-    json_result = json.loads(content)
-
-    print 'YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSS'
-    print type(json_result)
-    print(json_result)
-    # should be like that but...
-    #return json_result["resources"][0]
-    a = json_result['attributes']['cmbs']['message']['result']
-    return a
 
 class backend(backend.backend_interface):
     receiver_l1_ins = receiver_l1(name='l1_receiver')
@@ -471,7 +248,7 @@ class backend(backend.backend_interface):
             receiver_l4_socket = entity['attributes']['cmbs']['member']['l4_socket']
 
 
-#        logger.debug('The create operation of the cmbs_member_backend')
+        #        logger.debug('The create operation of the cmbs_member_backend')
 
     def read(self, entity):
         '''
@@ -479,7 +256,8 @@ class backend(backend.backend_interface):
         Get the Entity's information
 
         '''
-    #        logger.debug('The read operation of the cmbs_member_backend')
+
+        #        logger.debug('The read operation of the cmbs_member_backend')
 
     def update(self, old_entity, new_entity):
         '''
@@ -487,7 +265,8 @@ class backend(backend.backend_interface):
         Update an Entity's information
 
         '''
-    #        logger.debug('The update operation of the cmbs_member_backend')
+
+        #        logger.debug('The update operation of the cmbs_member_backend')
 
     def delete(self, entity):
         '''
@@ -495,7 +274,8 @@ class backend(backend.backend_interface):
         Delete an Entity
 
         '''
-    #        logger.debug('The delete operation of the cmbs_member_backend')
+
+        #        logger.debug('The delete operation of the cmbs_member_backend')
 
     def action(self, entity, action, attributes):
         '''
@@ -537,5 +317,6 @@ if __name__ == "__main__":
     #get_members()
     #print get_UUID()
     #add_message(f_entities.j_cmbs_message("",get_UUID()))
-    print get_members()
-    print get_members_l1_socket()
+    #print get_members()
+    #print get_members_l1_socket()
+    pass
