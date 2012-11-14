@@ -35,8 +35,6 @@ try:
 except ImportError:
     import json
 
-import time
-
 import zmq
 
 import threading
@@ -176,26 +174,8 @@ def check_neighbors(neighbors_socket):
             mes_id = get_UUID()
             mes = f_entities.j_cmbs_message(socket, mes_id)
             location = message_rest.add_message(mes)
-            print 'location is: '
-            print location
 
-            time.sleep(2)
-
-            content = message_rest.send_l1_message(location)
-            print '++++++++++++++++++++++++++++'
-            print '++++++++++++++++++++++++++++'
-            print '++++++++++++++++++++++++++++'
-            print '++++++++++++++++++++++++++++'
-
-            time.sleep(4)
-
-            print type(content)
-            print content
-            print '++++++++++++++++++++++++++++'
-            print '++++++++++++++++++++++++++++'
-            print '++++++++++++++++++++++++++++'
-
-            time.sleep(2)
+            content = message_rest.send_l1_message_get_result(location)
 
             member_rest.add_member(content["member_description"])
             for soc in content["sockets_l1"]:
@@ -207,10 +187,6 @@ def check_neighbors(neighbors_socket):
                     neighbors_socket.append(soc)
 
         del neighbors_socket[0]
-
-
-
-
 
 class backend(backend.backend_interface):
     receiver_l1_ins = receiver_l1(name='l1_receiver')

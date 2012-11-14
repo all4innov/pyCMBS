@@ -66,6 +66,8 @@ def check_member(id):
     c.setopt(c.HEADERFUNCTION, storage_header.write)
     c.setopt(c.WRITEFUNCTION, storage_body.write)
     c.perform()
+    content_header = storage_header.getvalue()
+    content_body = storage_body.getvalue()
 
     if c.getinfo(pycurl.HTTP_CODE) == 404:
         return 0

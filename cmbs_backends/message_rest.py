@@ -68,8 +68,6 @@ def update_message(entity):
     c.perform()
     content = storage.getvalue()
     print " ========== Body content of the update message ==========\n " + content + " \n ==========\n"
-    time.sleep(5)
-
 
 def add_message(message_description):
     storage = StringIO.StringIO()
@@ -99,15 +97,8 @@ def send_l1_message(location):
     c.setopt(c.WRITEFUNCTION, storage.write)
 
     c.perform()
-
-    print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXx'
-    time.sleep(4)
-
-    res = get_result_from_message(location)
-
     content = storage.getvalue()
     print " ========== Body content ==========\n " + content + " \n ==========\n"
-    return res
 
 
 def get_result_from_message(location):
@@ -127,3 +118,16 @@ def get_result_from_message(location):
     #return json_result["resources"][0]
     a = json_result['attributes']['cmbs']['message']['result']
     return a
+
+def send_l1_message_get_result(location):
+    send_l1_message(location)
+
+    result_received = False
+    res = ''
+    while not result_received:
+        res = get_result_from_message(location)
+        if len(res) < 0.5:
+            time.sleep(0.5)
+        else:
+            result_received = True
+    return res
