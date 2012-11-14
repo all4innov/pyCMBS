@@ -2,7 +2,7 @@
  pyCMBS - Python Cloud Message Brokering Service
 ==========================================================
 
-:Version: 0.1
+:Version: 0.2
 :Source: https://github.com/jordan-developer/pyCMBS
 :Keywords: CMBS, Message Brokering, Message pattern, OCCI, REST, Interface, HTTP, JSON, CouchDB, Eventlet, Webob, Cloud Computing
 
@@ -44,7 +44,7 @@ pyCMBS (Python Cloud Message Brokering Service): A Python implementation of CMBS
 1. The Latest Version
 =====================
 
-version 0.1
+version 0.2
 
 
 2. API Documentation
