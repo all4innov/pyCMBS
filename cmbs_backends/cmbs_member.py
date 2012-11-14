@@ -29,7 +29,7 @@ import cmbs_backends.backend as backend
 import cmbs_backends.f_entities as f_entities
 import cmbs_backends.member_rest as member_rest
 import cmbs_backends.message_rest as message_rest
-
+import cmbs_backends.cmbs_zeromq as cmbs_zeromq
 try:
     import simplejson as json
 except ImportError:
@@ -69,14 +69,14 @@ class receiver_l1(threading.Thread):
         receiver_l1_state = True
 
     def run(self):
-        context = zmq.Context()
-        socket = context.socket(zmq.REP)
+        context_l1 = zmq.Context()
+        socket_l1 = context_l1.socket(zmq.REP)
         global receiver_l1_socket
-        socket.bind(receiver_l1_socket)
+        socket_l1.bind(receiver_l1_socket)
 
         global receiver_l1_state
         while True:
-            msg = socket.recv_json()
+            msg = socket_l1.recv_json()
             # an if to avoid executing a message after stopping the receiver
             if not receiver_l1_state:  break
 
@@ -85,12 +85,12 @@ class receiver_l1(threading.Thread):
             else:
                 logger.debug("Adding the received member description to the DB.")
                 member_rest.add_member(msg['attributes']['cmbs']['message']['message_content'])
+            cmbs_zeromq.run_receiver_l1(msg)
 
-
-            response = {"member_description": member_rest.get_local_member_description_for_sending(member_rest.get_local_member_uri()),
+            response = {"member_description": member_rest.get_member_description_for_sending(member_rest.get_local_member_uri()),
                         "sockets_l1": member_rest.get_members_l1_socket()}
 
-            socket.send_json(response)
+            socket_l1.send_json(response)
 
     def stop(self):
         global receiver_l1_state
@@ -98,7 +98,7 @@ class receiver_l1(threading.Thread):
 
 
 class receiver_l2(threading.Thread):
-    def __init__(self, name='l2_receiver', l2_socket='tcp://127.0.0.1:5020'):
+    def __init__(self, name='', l2_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l2_socket = l2_socket
@@ -106,7 +106,19 @@ class receiver_l2(threading.Thread):
         receiver_l2_state = True
 
     def run(self):
-        pass
+        context_l2 = zmq.Context()
+        socket_l2 = context_l2.socket(zmq.SUB)
+        global receiver_l2_socket
+        socket_l2.bind(receiver_l2_socket)
+        socket_l2.setsockopt(zmq.SUBSCRIBE, '')
+
+        global receiver_l2_state
+        while True:
+            msg = socket_l2.recv_json()
+            # an if to avoid executing a message after stopping the receiver
+            if not receiver_l2_state:  break
+
+            cmbs_zeromq.run_receiver_l2(msg)
 
     def stop(self):
         global receiver_l2_state
@@ -114,7 +126,7 @@ class receiver_l2(threading.Thread):
 
 
 class receiver_l31(threading.Thread):
-    def __init__(self, name='l31_receiver', l31_socket='tcp://127.0.0.1:5031'):
+    def __init__(self, name='', l31_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l31_socket = l31_socket
@@ -130,7 +142,7 @@ class receiver_l31(threading.Thread):
 
 
 class receiver_l32(threading.Thread):
-    def __init__(self, name='l32_receiver', l32_socket='tcp://127.0.0.1:5032'):
+    def __init__(self, name='', l32_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l32_socket = l32_socket
@@ -146,7 +158,7 @@ class receiver_l32(threading.Thread):
 
 
 class receiver_l4(threading.Thread):
-    def __init__(self, name='l4_receiver', l4_socket='tcp://127.0.0.1:5040'):
+    def __init__(self, name='', l4_socket=''):
         threading.Thread.__init__(self)
         self.name = name
         self.l4_socket = l4_socket
@@ -159,7 +171,6 @@ class receiver_l4(threading.Thread):
     def stop(self):
         global receiver_l4_state
         receiver_l4_state = False
-
 
 def check_neighbors(neighbors_socket):
     while len(neighbors_socket) > 0:

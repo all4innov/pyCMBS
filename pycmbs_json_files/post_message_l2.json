@@ -13,12 +13,12 @@
                         "sendable": "True",
                         "storable": "True",
                         "path_history": [],
-                        "message_content": {}
+                        "message_content": "message l2"
                     }
                 }
             },
             "actions": [],
-            "id": "886ad860-2a9a-504f-8861-aeafd0a1ae02",
+            "id": "0102d860-2a9a-504f-8861-aeafd0a10201",
             "title": "l2 CMBS message",
             "summary": "This is a L2 CMBS message",
             "links": []

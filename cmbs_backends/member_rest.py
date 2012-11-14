@@ -151,7 +151,7 @@ def get_local_member_uri():
     return json_result["X-OCCI-Location"][0]
 
 
-def get_local_member_description(uri):
+def get_member_description(uri):
     c = pycurl.Curl()
 
     storage = StringIO.StringIO()
@@ -169,7 +169,7 @@ def get_local_member_description(uri):
     return json_result
 
 
-def get_local_member_description_for_sending(uri):
+def get_member_description_for_sending(uri):
     c = pycurl.Curl()
 
     storage = StringIO.StringIO()

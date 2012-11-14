@@ -60,14 +60,15 @@ def execute_l4():
 
 def send_l1(zmq_server, entity):
     try:
-        Q = member_rest.get_local_member_uri()
-        H = member_rest.get_local_member_description_for_sending(Q)
-        entity['attributes']['cmbs']['message']['message_content'] = H
-        entity['attributes']['cmbs']['message']['path_history'].append(member_rest.get_local_member_uri())
         context = zmq.Context()
         socket = context.socket(zmq.REQ)
         socket.connect(zmq_server)
         logger.debug("sending the request to the server.")
+
+        Q = member_rest.get_local_member_uri()
+        H = member_rest.get_member_description_for_sending(Q)
+        entity['attributes']['cmbs']['message']['message_content'] = H
+        entity['attributes']['cmbs']['message']['path_history'].append(member_rest.get_local_member_uri())
 
         socket.send_json(entity)
         logger.debug('Receiving the replay:')
@@ -79,10 +80,21 @@ def send_l1(zmq_server, entity):
     except Exception as e:
         logger.warning("Error on the send_l1 request: " + str(e))
 
+def send_l2(entity):
+    context_l2 = zmq.Context()
+    socket_l2 = context_l2.socket(zmq.PUB)
 
-def send_l2():
-    pass
+    logger.debug("extracting all known broadcast socket's members")
+    members_uri = member_rest.get_members()
+    for member_uri in members_uri:
+        member_description = member_rest.get_member_description(member_uri)
+        member_local = member_description['attributes']['cmbs']['member']['local']
+        if member_local == 'false':
+            member_l2_socket = member_description['attributes']['cmbs']['member']['l2_socket']
+            socket_l2.connect(member_l2_socket)
 
+    socket_l2.send_json(entity)
+    socket_l2.close()
 
 def send_l31():
     pass
@@ -162,7 +174,7 @@ class backend(backend.backend_interface):
                 args=(entity['attributes']['cmbs']['message']['l1_socket_receiver_member'], entity))
             sen_l1.start()
         elif action == 'send_l2' and cmbs_layer == 'l2':
-            sen_l2 = Thread(target=send_l2, args=())
+            sen_l2 = Thread(target=send_l2, args=(entity,))
             sen_l2.start()
         elif action == 'send_l31' and cmbs_layer == 'l31':
             sen_l31 = Thread(target=send_l31, args=())
