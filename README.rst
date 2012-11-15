@@ -32,7 +32,6 @@ Table of Contents
   7. Contacts
   8. Acknowledgment
   9. Todo
-  10. json files to execute the HowTo use examples
 
 
 0. What is it?
@@ -101,6 +100,9 @@ To test CouchDB GUI:   http://127.0.0.1:5984/_utils/
 
 4. HowTo use (examples. The json files are at the end of this README)
 =====================================================================
+
+4.1. Member category
+--------------------
 
 Creation of the 'member' kind::
 
@@ -256,11 +258,266 @@ put_provider_cmbs_member.json::
         ]
     }
 
+4.2. Message category
+---------------------
+
+Creation of the 'message' kind::
+
+    curl -X POST -d@post_category_cmbs_message.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/-/
+
+post_category_cmbs_message.json::
+
+  {
+      "actions": [
+          {
+              "term": "execute",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "execute locally the message",
+              "attributes": {}
+          },
+          {
+              "term": "send_l1",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "Send a L1 message",
+              "attributes": {}
+          },
+          {
+              "term": "send_l2",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "Send a L2 message",
+              "attributes": {}
+          },
+          {
+              "term": "send_l31",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "Send a L31 message",
+              "attributes": {}
+          },
+          {
+              "term": "send_l32",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "Send a L32 message",
+              "attributes": {}
+          },
+          {
+              "term": "send_l4",
+              "scheme": "http://houssem.org/cmbs/message/action#",
+              "title": "Send a L4 message",
+              "attributes": {}
+          }
+      ],
+      "kinds": [
+          {
+              "term": "message",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "CMBS message",
+              "attributes": {
+                  "cmbs": {
+                      "message": {
+                          "cmbs_layer": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "String",
+                              "pattern": "l1|l2|l31|l32|l4",
+                              "default": "true"
+                          },
+                          "executable": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "String",
+                              "pattern": "true|false",
+                              "default": "true"
+                          },
+                          "sendable": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "String",
+                              "pattern": "true|false",
+                              "default": "true"
+                          },
+                          "storable": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "String",
+                              "pattern": "true|false",
+                              "default": "true"
+                          },
+                          "path_history": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Array",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          },
+                          "message_content": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Object",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          },
+                          "result": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Object",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          }
+                      }
+                  }
+              },
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#execute"
+              ],
+              "location": "/cmbs/message/"
+          }
+      ],
+      "mixins": [
+          {
+              "term": "l1",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "L1 CMBS message",
+              "related": [],
+              "attributes": {
+                  "cmbs": {
+                      "message": {
+                          "l1_socket_receiver_member": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "String",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          }
+                      }
+                  }
+              },
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#send_l1"
+              ],
+              "location": "/cmbs/message/l1/"
+          },
+          {
+              "term": "l2",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "L2 CMBS message",
+              "related": [],
+              "attributes": {},
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#send_l2"
+              ],
+              "location": "/cmbs/message/l2/"
+          },
+          {
+              "term": "l31",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "L31 CMBS message",
+              "related": [],
+              "attributes": {
+                  "cmbs": {
+                      "message": {
+                          "providers": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Array",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          }
+                      }
+                  }
+              },
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#send_l31"
+              ],
+              "location": "/cmbs/message/l31/"
+          },
+          {
+              "term": "l32",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "L32 CMBS message",
+              "related": [],
+              "attributes": {
+                  "cmbs": {
+                      "message": {
+                          "topics": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Array",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          }
+                      }
+                  }
+              },
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#send_l32"
+              ],
+              "location": "/cmbs/message/l32/"
+          },
+          {
+              "term": "l4",
+              "scheme": "http://houssem.org/cmbs#",
+              "title": "L4 CMBS message",
+              "related": [],
+              "attributes": {
+                  "cmbs": {
+                      "message": {
+                          "providers": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Array",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          },
+                          "topics": {
+                              "mutable": true,
+                              "required": false,
+                              "type": "Array",
+                              "pattern": "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*",
+                              "default": ""
+                          }
+                      }
+                  }
+              },
+              "actions": [
+                  "http://houssem.org/cmbs/message/action#send_l4"
+              ],
+              "location": "/cmbs/message/l4/"
+          }
+  
+      ]
+  }
+Update the provider of the 'message' kind::
+  
+    curl -X PUT -d@put_provider_cmbs_message.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/-/
+
+put_provider_cmbs_message.json::
+
+  {
+    "providers": [
+        {
+            "Provider": {
+                "local": [
+                    "cmbs_message"
+                ],
+                "remote": [
+
+                ]
+            },
+            "OCCI_ID": "http://houssem.org/cmbs#message"
+        }
+    ]
+  }
+
+
+4.3. Member instance
+--------------------
+
 Create a member::
 
     curl -X POST -d@post_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' --user user_1:pass -v http://127.0.0.1:8090/cmbs/member/
 
-    <
+return::
+
     {"Location": ["http://127.0.0.1:8090/cmbs/member/996ad860-2a9a-504f-8861-aeafd0b2ae29"]}
 
 
@@ -294,6 +551,71 @@ post_member.json::
                }
            ]
        }
+
+discovery request::
+
+   curl -X POST -d@action_check_neighbors_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/member/016ad860-2a9a-504f-8861-aeafd0b2ae29?action=check_neighbors
+
+starting the l1 receiver::
+
+   curl -X POST -d@action_start_l1_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/member/016ad860-2a9a-504f-8861-aeafd0b2ae29?action=start_l1
+
+stopping the l1 receiver::
+
+   curl -X POST -d@action_stop_l1_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/member/016ad860-2a9a-504f-8861-aeafd0b2ae29?action=stop_l1
+
+starting the l2 receiver::
+
+   curl -X POST -d@action_start_l2_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/member/016ad860-2a9a-504f-8861-aeafd0b2ae29?action=start_l2
+
+stopping the l2 receiver::
+
+   curl -X POST -d@action_stop_l2_member.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/member/016ad860-2a9a-504f-8861-aeafd0b2ae29?action=stop_l2
+
+4.4. Message l1 instance
+------------------------
+
+Create a message::
+
+   curl -X POST -d@post_message_l1.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/message/
+
+post_message_l1.json::
+
+   {
+       "resources": [
+           {
+               "kind": "http://houssem.org/cmbs#message",
+               "mixins": [
+                    "http://houssem.org/cmbs#l1"
+               ],
+               "attributes": {
+                   "cmbs": {
+                       "message": {
+                           "cmbs_layer": "l1",
+                           "executable": "True",
+                           "sendable": "True",
+                           "storable": "True",
+                           "path_history": [],
+                           "message_content": "",
+                           "l1_socket_receiver_member": "tcp://127.0.0.1:5010",
+                           "result": ""
+                       }
+                   }
+               },
+               "actions": [],
+               "id": "0101d860-2a9a-504f-8861-aeafd0b20101",
+               "title": "l1 CMBS message",
+               "summary": "This is a L1 CMBS message",
+               "links": []
+           }
+       ]
+   }
+
+
+sending the message l1::
+
+   curl -X POST -d@action_send_l1_message.json -H 'content-type: application/occi+json' -H 'accept: application/occi+json' -v http://127.0.0.1:8090/cmbs/message/0101d860-2a9a-504f-8861-aeafd0b20101?action=send_l1
+
 
 5. For developers
 =================
@@ -341,5 +663,3 @@ Some of pyCMBS's needs might be:
 
 *
 
-10. json files to execute the HowTo use examples (available under client/request_examples folder)
-=======================================================================
